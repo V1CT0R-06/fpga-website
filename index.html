@@ -1,30 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0e13">
-  <title>FPGA • Cyclone IV</title>
+  <title>FPGA — LSD / ISD</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
-  <main class="app">
-    <div class="eyebrow"><span class="indicator" id="statusLight"></span> CYCLONE IV · DEVELOPMENT BOARD</div>
-    <h1>FPGA Simulator</h1>
-    <p class="description">Power on the board to initialize the seven-segment display.</p>
-    <div class="board-stage">
-      <div class="board" id="board">
-        <img src="assets/fpga.png" alt="Alinx Cyclone IV FPGA development board" draggable="false">
-        <div class="lcd" aria-hidden="true"><svg id="display" viewBox="0 0 360 94" preserveAspectRatio="none"></svg></div>
-        <button class="hardware-power" id="hardwarePower" aria-label="Toggle FPGA power" title="Toggle power"></button>
-      </div>
+  <main>
+    <h1>FPGA — LSD / ISD</h1>
+    <p>Engenharia de Computadores e Telemática · Universidade de Aveiro</p>
+    <p>Experiências com a Cyclone IV. Mais uma tarde de VHDL.</p>
+    <div class="board">
+      <img src="assets/fpga.png" alt="Placa FPGA Alinx Cyclone IV com seis displays de sete segmentos" draggable="false">
+      <svg id="display" viewBox="0 0 1109 859" aria-hidden="true">
+        <rect x="621" y="640" width="324" height="86" fill="#202024" />
+      </svg>
+      <button id="hardwarePower" type="button" aria-label="Ligar FPGA" aria-pressed="false" title="ON / OFF"></button>
     </div>
-    <div class="controls">
-      <button id="powerButton" class="power-button" type="button"><span class="power-symbol">⏻</span> <span id="powerText">Power on</span></button>
-      <span class="state" id="stateText" role="status" aria-live="polite">BOARD OFFLINE</span>
-    </div>
-    <p class="hint">Use the button above or click the FPGA's power switch.</p>
+    <p>
+      <button id="powerButton" type="button" aria-pressed="false">Ligar FPGA</button>
+      <span id="stateText" role="status">POWER = 0</span>
+    </p>
   </main>
 </body>
 </html>
