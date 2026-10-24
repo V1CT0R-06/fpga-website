@@ -23,7 +23,7 @@ button { margin-top: 10px; padding: 6px 14px; font: inherit; cursor: pointer; }
   </div>
   <button id="powerButton" type="button" aria-pressed="false">Ligar FPGA</button>
   <script>
-const SECRET_CODE = "582914";
+const SECRET_CODE = "000101";
 
 const display = document.getElementById('display');
 const powerButton = document.getElementById('powerButton');
@@ -46,7 +46,7 @@ function show(value) {
     html += `<g transform="translate(${3 + i * 55} 5) scale(.78)">`;
     for (const segment in shapes) {
       const on = (digits[value[i]] || '').includes(segment);
-      const color = on ? (i === 3 ? '#e8b844' : '#e84040') : '#282329';
+      const color = on ? '#39ff14' : '#282329';
       html += `<polygon points="${shapes[segment]}" fill="${color}" />`;
     }
     html += '</g>';
