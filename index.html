@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0e13">
+  <title>FPGA • Cyclone IV</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <div class="eyebrow"><span class="indicator" id="statusLight"></span> CYCLONE IV · DEVELOPMENT BOARD</div>
+    <h1>FPGA Simulator</h1>
+    <p class="description">Power on the board to initialize the seven-segment display.</p>
+    <div class="board-stage">
+      <div class="board" id="board">
+        <img src="assets/fpga.png" alt="Alinx Cyclone IV FPGA development board" draggable="false">
+        <div class="lcd" aria-hidden="true"><svg id="display" viewBox="0 0 360 94" preserveAspectRatio="none"></svg></div>
+        <button class="hardware-power" id="hardwarePower" aria-label="Toggle FPGA power" title="Toggle power"></button>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="powerButton" class="power-button" type="button"><span class="power-symbol">⏻</span> <span id="powerText">Power on</span></button>
+      <span class="state" id="stateText" role="status" aria-live="polite">BOARD OFFLINE</span>
+    </div>
+    <p class="hint">Use the button above or click the FPGA's power switch.</p>
+  </main>
+</body>
+</html>
