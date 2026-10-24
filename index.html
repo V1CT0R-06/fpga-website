@@ -39,8 +39,6 @@ const shapes = {
   g: '8,44 13,40 34,40 39,44 34,48 13,48'
 };
 let powered = false;
-let timer;
-let step = 0;
 
 function show(value) {
   let html = '';
@@ -56,24 +54,11 @@ function show(value) {
   display.innerHTML = html;
 }
 
-function tick() {
-  if (!powered) return;
-  const sequence = ['000000', '000001', '000010', '000011', SECRET_CODE];
-  show(sequence[step]);
-  step++;
-  if (step < sequence.length) timer = setTimeout(tick, 250);
-}
-
 powerButton.addEventListener('click', () => {
-  clearTimeout(timer);
   powered = !powered;
   powerButton.textContent = powered ? 'Desligar FPGA' : 'Ligar FPGA';
   powerButton.setAttribute('aria-pressed', String(powered));
-  show(powered ? '888888' : '');
-  if (powered) {
-    step = 0;
-    timer = setTimeout(tick, 350);
-  }
+  show(powered ? SECRET_CODE : '');
 });
 
 show('');
