@@ -23,7 +23,8 @@ button { margin-top: 10px; padding: 6px 14px; font: inherit; cursor: pointer; }
   </div>
   <button id="powerButton" type="button" aria-pressed="false">Ligar FPGA</button>
   <script>
-const SECRET_CODE = "001000";
+const SECRET_CODE = "000101";
+const sequence = ["000000", "000001", "000010", "000011", "000100", SECRET_CODE];
 
 const display = document.getElementById('display');
 const powerButton = document.getElementById('powerButton');
@@ -39,6 +40,7 @@ const shapes = {
   g: '8,44 13,40 34,40 39,44 34,48 13,48'
 };
 let powered = false;
+let timer;
 
 function show(value) {
   let html = '';
@@ -55,10 +57,18 @@ function show(value) {
 }
 
 powerButton.addEventListener('click', () => {
+  clearInterval(timer);
   powered = !powered;
   powerButton.textContent = powered ? 'Desligar FPGA' : 'Ligar FPGA';
   powerButton.setAttribute('aria-pressed', String(powered));
-  show(powered ? SECRET_CODE : '');
+  show(powered ? sequence[0] : '');
+  if (powered) {
+    let step = 0;
+    timer = setInterval(() => {
+      show(sequence[++step]);
+      if (step === sequence.length - 1) clearInterval(timer);
+    }, 350);
+  }
 });
 
 show('');
