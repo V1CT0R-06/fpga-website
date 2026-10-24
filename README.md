@@ -10,7 +10,7 @@ At the top of `script.js`, change:
 const SECRET_CODE = "582914";
 ```
 
-Use any six numeric digits, including leading zeros. The board briefly tests all segments, counts from zero, then shows the code. The fourth digit from the left is green; the others are red.
+Use any six numeric digits, including leading zeros. The board briefly tests all segments, counts from zero, then shows the code. The fourth digit from the left is amber; the others are red.
 
 ## Deploy to GitHub Pages
 

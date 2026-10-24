@@ -1,9 +1,7 @@
 const SECRET_CODE = "582914";
 
-const svg = document.getElementById('display');
+const display = document.getElementById('display');
 const powerButton = document.getElementById('powerButton');
-const hardwarePower = document.getElementById('hardwarePower');
-const stateText = document.getElementById('stateText');
 const digits = ['abcdef', 'bc', 'abdeg', 'abcdg', 'bcfg',
   'acdfg', 'acdefg', 'abc', 'abcdefg', 'abcdfg'];
 const shapes = {
@@ -18,17 +16,18 @@ const shapes = {
 const displays = [];
 let powered = false;
 let timer;
+let step = 0;
 
 for (let i = 0; i < 6; i++) {
-  const group = document.createElementNS(svg.namespaceURI, 'g');
-  group.setAttribute('transform', `translate(${624 + i * 55} 645) scale(.78)`);
+  const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  group.setAttribute('transform', `translate(${3 + i * 55} 5) scale(.78)`);
   for (const segment in shapes) {
-    const polygon = document.createElementNS(svg.namespaceURI, 'polygon');
+    const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     polygon.setAttribute('points', shapes[segment]);
-    polygon.dataset.segment = segment;
+    polygon.setAttribute('data-segment', segment);
     group.appendChild(polygon);
   }
-  svg.appendChild(group);
+  display.appendChild(group);
   displays.push(group);
 }
 
@@ -36,34 +35,30 @@ function show(value) {
   displays.forEach((group, i) => {
     const segments = digits[value[i]] || '';
     for (const polygon of group.children) {
-      const on = segments.includes(polygon.dataset.segment);
-      polygon.setAttribute('fill', on ? (i === 3 ? '#71ff45' : '#ff3546') : '#282329');
+      const on = segments.includes(polygon.getAttribute('data-segment'));
+      polygon.setAttribute('fill', on ? (i === 3 ? '#e8b844' : '#e84040') : '#282329');
     }
   });
 }
 
-function togglePower() {
-  powered = !powered;
-  clearTimeout(timer);
-  powerButton.textContent = powered ? 'Desligar FPGA' : 'Ligar FPGA';
-  hardwarePower.setAttribute('aria-label', powerButton.textContent);
-  powerButton.setAttribute('aria-pressed', powered);
-  hardwarePower.setAttribute('aria-pressed', powered);
-  stateText.textContent = powered ? 'CLOCK...' : 'POWER = 0';
-  show(powered ? '888888' : '');
+function tick() {
   if (!powered) return;
-
   const sequence = ['000000', '000001', '000010', '000011', SECRET_CODE];
-  let step = 0;
-  function tick() {
-    show(sequence[step]);
-    step++;
-    if (step < sequence.length) timer = setTimeout(tick, 250);
-    else stateText.textContent = 'POWER = 1';
-  }
-  timer = setTimeout(tick, 350);
+  show(sequence[step]);
+  step++;
+  if (step < sequence.length) timer = setTimeout(tick, 250);
 }
 
-powerButton.addEventListener('click', togglePower);
-hardwarePower.addEventListener('click', togglePower);
+powerButton.addEventListener('click', () => {
+  clearTimeout(timer);
+  powered = !powered;
+  powerButton.textContent = powered ? 'Desligar FPGA' : 'Ligar FPGA';
+  powerButton.setAttribute('aria-pressed', String(powered));
+  show(powered ? '888888' : '');
+  if (powered) {
+    step = 0;
+    timer = setTimeout(tick, 350);
+  }
+});
+
 show('');

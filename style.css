@@ -1,11 +1,38 @@
-body { margin: 16px; font: 14px monospace; color: #222; background: white; }
-main { max-width: 1000px; margin: 0 auto; }
-p { margin: 10px 0; }
-.board { position: relative; }
+body {
+  margin: 12px;
+  background: #000000;
+  color: #ddd;
+  font: 14px Arial, sans-serif;
+  text-align: center;
+}
+main { max-width: 800px; margin: auto; }
+h1 { margin: 0 0 6px; font-size: 18px; font-weight: normal; }
+p { margin: 0 0 12px; line-height: 1.4; }
+.board {
+  position: relative;
+  width: 100%;
+  max-width: calc((100vh - 150px) * 1.29);
+  max-width: calc((100svh - 150px) * 1.29);
+  margin: auto;
+}
 .board img { display: block; width: 100%; height: auto; }
-#display { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-button { font: inherit; cursor: pointer; }
-#hardwarePower { position: absolute; left: 16%; top: 6%; width: 6%; height: 8%; padding: 0; border: 0; background: transparent; }
-#hardwarePower:focus-visible { outline: 2px solid blue; }
-#stateText { margin-left: 8px; }
-@media (max-width: 600px) { body { margin: 8px; } }
+#display {
+  position: absolute;
+  left: 55.9964%;
+  top: 74.5052%;
+  width: 29.2155%;
+  height: 10.0116%;
+  background: #202024;
+  pointer-events: none;
+}
+button {
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: 1px solid #999;
+  border-radius: 0;
+  background: #222;
+  color: #eee;
+  font: inherit;
+  cursor: pointer;
+}
+button:focus-visible { outline: 2px solid #eee; outline-offset: 3px; }
