@@ -4,18 +4,79 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>fpga-website</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <style>
+body { margin: 12px; background: #000; color: #fff; font: 14px Arial, sans-serif; text-align: center; }
+h1 { margin: 0 0 6px; font-size: 18px; font-weight: normal; }
+p { margin: 0 0 12px; }
+.board { position: relative; width: min(800px, 100%); max-width: calc((100vh - 130px) * 1.29); max-width: calc((100svh - 130px) * 1.29); margin: auto; }
+img { display: block; width: 100%; height: auto; }
+svg { position: absolute; left: 55.9964%; top: 74.5052%; width: 29.2155%; height: 10.0116%; background: #202024; pointer-events: none; }
+button { margin-top: 10px; padding: 6px 14px; font: inherit; cursor: pointer; }
+  </style>
 </head>
 <body>
-  <main>
-    <h1>FPGA - LSD / ISD</h1>
-    <p>Cyclone IV | Engenharia de Computadores e Telemática<br>Universidade de Aveiro</p>
-    <div class="board">
-      <img src="assets/fpga.png" width="1109" height="859" alt="Placa FPGA Alinx Cyclone IV com seis displays de sete segmentos">
-      <svg id="display" viewBox="0 0 324 86" aria-hidden="true"></svg>
-    </div>
-    <button id="powerButton" type="button" aria-pressed="false">Ligar FPGA</button>
-  </main>
+  <h1>FPGA - LSD / ISD</h1>
+  <p>ECT | Universidade de Aveiro</p>
+  <div class="board">
+    <img src="fpga.png" width="1109" height="859" alt="Placa FPGA Alinx Cyclone IV com seis displays de sete segmentos">
+    <svg id="display" viewBox="0 0 324 86" aria-hidden="true"></svg>
+  </div>
+  <button id="powerButton" type="button" aria-pressed="false">Ligar FPGA</button>
+  <script>
+const SECRET_CODE = "582914";
+
+const display = document.getElementById('display');
+const powerButton = document.getElementById('powerButton');
+const digits = ['abcdef', 'bc', 'abdeg', 'abcdg', 'bcfg',
+  'acdfg', 'acdefg', 'abc', 'abcdefg', 'abcdfg'];
+const shapes = {
+  a: '8,4 39,4 34,10 13,10',
+  b: '41,6 46,11 46,38 40,43 37,39 37,13',
+  c: '40,49 46,54 46,80 41,85 37,78 37,53',
+  d: '13,81 34,81 39,87 8,87',
+  e: '5,49 10,53 10,78 5,85 0,80 0,54',
+  f: '5,6 10,13 10,39 5,43 0,38 0,11',
+  g: '8,44 13,40 34,40 39,44 34,48 13,48'
+};
+let powered = false;
+let timer;
+let step = 0;
+
+function show(value) {
+  let html = '';
+  for (let i = 0; i < 6; i++) {
+    html += `<g transform="translate(${3 + i * 55} 5) scale(.78)">`;
+    for (const segment in shapes) {
+      const on = (digits[value[i]] || '').includes(segment);
+      const color = on ? (i === 3 ? '#e8b844' : '#e84040') : '#282329';
+      html += `<polygon points="${shapes[segment]}" fill="${color}" />`;
+    }
+    html += '</g>';
+  }
+  display.innerHTML = html;
+}
+
+function tick() {
+  if (!powered) return;
+  const sequence = ['000000', '000001', '000010', '000011', SECRET_CODE];
+  show(sequence[step]);
+  step++;
+  if (step < sequence.length) timer = setTimeout(tick, 250);
+}
+
+powerButton.addEventListener('click', () => {
+  clearTimeout(timer);
+  powered = !powered;
+  powerButton.textContent = powered ? 'Desligar FPGA' : 'Ligar FPGA';
+  powerButton.setAttribute('aria-pressed', String(powered));
+  show(powered ? '888888' : '');
+  if (powered) {
+    step = 0;
+    timer = setTimeout(tick, 350);
+  }
+});
+
+show('');
+  </script>
 </body>
 </html>
