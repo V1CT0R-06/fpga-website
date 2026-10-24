@@ -1,6 +1,5 @@
 body { margin: 16px; font: 14px monospace; color: #222; background: white; }
 main { max-width: 1000px; margin: 0 auto; }
-h1 { font-size: 22px; margin: 0 0 10px; }
 p { margin: 10px 0; }
 .board { position: relative; }
 .board img { display: block; width: 100%; height: auto; }
